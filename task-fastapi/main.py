@@ -39,16 +39,20 @@ async def get_dog_by_pk(pk: int):
 
 @app.post('/dog')
 async def create_dog(dog: Dog):
-    new_dog = OrderedDict([('pk', dog.pk), ('name', dog.name), ('kind', dog.kind)])
+    if dog.pk != None:
+        new_dog = OrderedDict([('pk', dog.pk), ('name', dog.name), ('kind', dog.kind)])
+    else:
+        new_dog = OrderedDict([('pk', len(dogs)), ('name', dog.name), ('kind', dog.kind)])
     dogs.append(new_dog)
-    return dog
+    return new_dog
 
 @app.patch('/dog/{pk}')
 async def update_dog(pk: int, dog: Dog):
     for i in dogs:
         if i['pk'] == pk:
             dogs.remove(i)
-            dog.pk = pk
-            dogs.append(dog)
-            return dog
+            rd_dog = OrderedDict([('pk', pk), ('name', dog.name), ('kind', dog.kind)])
+            dogs.append(rd_dog)
+            return rd_dog
     raise HTTPException(status_code=404)
+
