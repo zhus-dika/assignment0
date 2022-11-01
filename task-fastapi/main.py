@@ -1,8 +1,11 @@
 from typing import Union
 from pydantic import BaseModel
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, HTTPException
 from enum import Enum
 
+from pydantic.utils import OrderedDict
+
+dogs = []
 app = FastAPI()
 class DogType(str, Enum):
     terrier = 'terrier'
@@ -16,7 +19,7 @@ class Dog(BaseModel):
 
 @app.get('/')
 async def root():
-    return {'message': 'Hello world'}
+    return 'ok'
 
 @app.post('/post')
 async def get_post():
@@ -24,24 +27,28 @@ async def get_post():
             'timestamp': 0
              }
 @app.get('/dog')
-async def get_dogs(kind: DogType = None):
-    dogs = []
-    if kind == None:
-        kind = DogType.dalmatian
-    dog = Dog(name = 'dika', kind = kind, pk = 0)
-    dogs.append(dog)
-    return [dog]
+async def get_dogs():
+    return dogs
 
 @app.get('/dog/{pk}')
 async def get_dog_by_pk(pk: int):
-    dog = Dog(name = 'dika', kind = DogType.dalmatian, pk = pk)
-    return dog
+    for i in dogs:
+        if i['pk'] == pk:
+            return i
+    raise HTTPException(status_code=404)
 
 @app.post('/dog')
 async def create_dog(dog: Dog):
+    new_dog = OrderedDict([('pk', dog.pk), ('name', dog.name), ('kind', dog.kind)])
+    dogs.append(new_dog)
     return dog
 
 @app.patch('/dog/{pk}')
 async def update_dog(pk: int, dog: Dog):
-    dog.pk = pk
-    return dog
+    for i in dogs:
+        if i['pk'] == pk:
+            dogs.remove(i)
+            dog.pk = pk
+            dogs.append(dog)
+            return dog
+    raise HTTPException(status_code=404)
