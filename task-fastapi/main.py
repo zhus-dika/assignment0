@@ -26,8 +26,11 @@ async def get_post():
     return {'id': 0,
             'timestamp': 0
              }
+
 @app.get('/dog')
-async def get_dogs():
+async def get_dogs(kind: DogType = None):
+    if kind != None:
+        return [i for i in dogs if i['kind'] == kind]
     return dogs
 
 @app.get('/dog/{pk}')
