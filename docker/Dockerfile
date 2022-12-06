@@ -10,7 +10,7 @@ RUN pip install -r requirements.txt
 
 ADD print_hello /bin/print_hello
 
-RUN chmod +x /bin/print_hello
+RUN chmod u+x /bin/print_hello
 
 ARG uid
 
@@ -19,7 +19,7 @@ RUN useradd deploy2022user
 WORKDIR /home/deploy2022user
 
 USER deploy2022user
-
-ADD main.py /home/deploy2022user/main.py
-
-CMD ["uvicorn", "--port", "8898", "--host", "0.0.0.0", "main:app"]
+#
+#ADD main.py /home/deploy2022user/main.py
+#
+#CMD ["uvicorn", "--port", "8898", "--host", "0.0.0.0", "main:app"]
