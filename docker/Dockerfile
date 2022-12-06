@@ -22,6 +22,4 @@ USER deploy2022user
 
 ADD main.py /home/deploy2022user/main.py
 
-
-
-CMD ["uvicorn", "--host", "0.0.0.0", "main:app"]
+CMD ["uvicorn", "--host", "--port", "8898", "0.0.0.0", "main:app"]
