@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y git python3 python3-pip
 
 ADD requirements.txt /requirements.txt
 
+ADD README.md /README.md
+
 RUN pip install -r requirements.txt
 
 ADD print_hello /bin/print_hello
