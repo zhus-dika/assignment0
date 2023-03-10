@@ -61,8 +61,7 @@ def test_filter_empty_nodes():
     tree = Tree()
     with tempfile.TemporaryDirectory() as top_level:
         with tempfile.TemporaryDirectory(dir=top_level) as low_level:
-            with tempfile.NamedTemporaryFile(dir=low_level) as file:
-                fn = tree.get(file.name, dirs_only=False)
+            with tempfile.NamedTemporaryFile(dir=low_level) as _:
                 fndir_top = tree.get(top_level, dirs_only=False)
                 fndir_low = tree.get(low_level, dirs_only=False)
                 tree.filter_empty_nodes(fndir_top, current_path=top_level)

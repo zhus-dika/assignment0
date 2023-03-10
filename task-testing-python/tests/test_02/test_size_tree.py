@@ -39,3 +39,12 @@ def test_update_filenode():
             fsize = os.path.getsize(fp.name)
             fn_updated = size_tree.update_filenode(size_tree.get(tmpdir, False))
             assert fn.size + 2 * fsize == fn_updated.size
+
+def test_update_filenode_empty():
+    size_tree = SizeTree()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        fn = size_tree.construct_filenode(tmpdir, True)
+        with tempfile.NamedTemporaryFile(dir=tmpdir) as fp:
+            fsize = os.path.getsize(fp.name)
+            fn_updated = size_tree.update_filenode(size_tree.get(tmpdir, False))
+            assert fn.size + 2 * fsize == fn_updated.size
