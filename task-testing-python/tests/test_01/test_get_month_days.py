@@ -2,7 +2,7 @@ from simple_library_01.functions import *
 
 
 def test_get_month_days():
-    for i in [1, 2]:
+    for i in range(1, 13):
         assert 30 == get_month_days(1930, i)
     for i in [2000, 2012, 2023]:
         for j in [4, 6, 9, 11]:
