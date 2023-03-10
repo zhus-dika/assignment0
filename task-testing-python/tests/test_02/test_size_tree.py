@@ -16,7 +16,6 @@ def test_construct_filenode_file():
             size=os.path.getsize(temp_file)
         ) == size_tree.construct_filenode(temp_file, False)
 
-
 def test_construct_filenode_dir():
     size_tree = SizeTree()
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -28,7 +27,6 @@ def test_construct_filenode_dir():
             size=BLOCK_SIZE
         ) == size_tree.construct_filenode(tmpdir, True)
 
-
 def test_update_filenode():
     size_tree = SizeTree()
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -36,15 +34,6 @@ def test_update_filenode():
         with tempfile.NamedTemporaryFile(dir=tmpdir) as fp:
             fp.write(b'Now the file has more content and size!')
             fp.seek(0)
-            fsize = os.path.getsize(fp.name)
-            fn_updated = size_tree.update_filenode(size_tree.get(tmpdir, False))
-            assert fn.size + 2 * fsize == fn_updated.size
-
-def test_update_filenode_empty():
-    size_tree = SizeTree()
-    with tempfile.TemporaryDirectory() as tmpdir:
-        fn = size_tree.construct_filenode(tmpdir, True)
-        with tempfile.NamedTemporaryFile(dir=tmpdir) as fp:
             fsize = os.path.getsize(fp.name)
             fn_updated = size_tree.update_filenode(size_tree.get(tmpdir, False))
             assert fn.size + 2 * fsize == fn_updated.size
