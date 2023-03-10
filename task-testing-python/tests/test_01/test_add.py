@@ -13,3 +13,6 @@ def test_add_with_zero():
 def test_add_negative():
     assert -38 == add(-17, -21)
 
+def test_add_pos_neg():
+    assert 4 == add(-17, 21)
+
