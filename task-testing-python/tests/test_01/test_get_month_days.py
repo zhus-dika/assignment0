@@ -22,3 +22,10 @@ def test_get_month_days_with_exception():
     except AttributeError:
         assert True
 
+def test_get_month_days_with_exception_neg():
+    try:
+        get_month_days(1, -22)
+        assert False
+    except AttributeError:
+        assert True
+
